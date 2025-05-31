@@ -1,0 +1,35 @@
+name: Build Universal Charter
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install markdown-transclusion
+      run: npm install -g markdown-transclusion@1.0.1
+      
+    - name: Process charter with transclusion
+      run: |
+        # Process the main charter document
+        npx markdown-transclusion charter/v1.md > charter/v1-processed.md
+        
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        destination_dir: docs
