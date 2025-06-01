@@ -1,0 +1,24 @@
+{
+  "name": "universal-charter",
+  "version": "1.0.0",
+  "description": "Universal Charter for Digital Governance",
+  "scripts": {
+    "test-push-action": "docker build -f Dockerfile.local -t universal-charter-local . && docker run --rm universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md > ../index_temp.html 2>/dev/null && tail -n +4 ../index_temp.html > ../index.html && rm ../index_temp.html && echo \"Charter processed to index.html\" && ls -la ../index.html && head -10 ../index.html'",
+    "build-local": "docker build -f Dockerfile.local -t universal-charter-local .",
+    "shell-local": "docker run --rm -it -v $(pwd):/workspace universal-charter-local",
+    "clean-local": "docker rmi universal-charter-local 2>/dev/null || true",
+    "build-site": "node .github/scripts/build-site.js",
+    "test-push-action-save": "rm -rf ./output && mkdir -p ./output && docker build -f Dockerfile.local -t universal-charter-local . && docker run --name temp-charter universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md > v1-expanded.md && npx markdown-transclusion v1.md > ../index_temp.html 2>/dev/null && tail -n +4 ../index_temp.html > ../index.html && rm ../index_temp.html && echo \"Charter processed\" && node ../.github/scripts/build-site.js && echo \"Site built\"' && docker cp temp-charter:/workspace/. ./output/ && docker rm temp-charter && echo \"Full artifact saved to ./output/\" && (command -v open >/dev/null && open ./output/index.html || command -v xdg-open >/dev/null && xdg-open ./output/index.html || echo \"Please open ./output/index.html manually\")"
+  },
+  "keywords": ["governance", "digital", "charter"],
+  "license": "MIT",
+  "author": "flyingrobots",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UniversalCharter/universal-charter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/UniversalCharter/universal-charter/issues"
+  },
+  "homepage": "https://universalcharter.github.io/universal-charter/"
+}
