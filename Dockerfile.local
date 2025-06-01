@@ -1,0 +1,21 @@
+FROM ubuntu:22.04
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install markdown-transclusion globally
+RUN npm install -g markdown-transclusion@1.0.1
+
+# Set working directory
+WORKDIR /workspace
+
+# Copy project files
+COPY . .
+
+# Set default command to bash for interactive use
+CMD ["/bin/bash"]
