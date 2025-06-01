@@ -21,7 +21,19 @@ jobs:
     - name: Install markdown-transclusion
       run: npm install -g markdown-transclusion@1.0.1
     - name: Process charter
-      run: npx markdown-transclusion charter/v1.md > charter/v1-processed.md
+      run: |
+        cd charter
+        npx markdown-transclusion v1.md > ../index_temp.html 2>/dev/null
+        # Remove any command output lines and create clean index.html
+        tail -n +4 ../index_temp.html > ../index.html
+        rm ../index_temp.html
+        echo "Charter processed to index.html"
+    - name: Verify index.html created
+      run: |
+        ls -la index.html
+        echo "First 10 lines of index.html:"
+        head -10 index.html
+        echo "File size: $(wc -c < index.html) bytes"
     - name: Setup Pages
       uses: actions/configure-pages@v4
     - name: Upload artifact
@@ -38,3 +50,4 @@ jobs:
     steps:
     - name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v4
+EOF < /dev/null
