@@ -23,6 +23,43 @@ The Universal Charter establishes a framework for recognizing and respecting all
 - `/assets` – Logos, diagrams, visual media
 - `/meta` – Process notes, changelogs, and provenance
 
+## Development
+
+### Build Workflows
+
+The Charter uses Docker-based workflows for consistent processing across environments.
+
+**Alternative: Install CLI Globally**
+For simpler command-line usage, install `markdown-transclusion` globally:
+```bash
+npm install -g markdown-transclusion
+cd charter && markdown-transclusion v1.md --strip-frontmatter > v1-expanded.md
+```
+
+**Docker Workflows (Recommended for CI/Consistency):**
+
+**Base Commands:**
+- `npm run build` - Build Docker image once
+- `npm run generate` - Generate expanded markdown (requires built image)
+- `npm run website` - Generate website HTML (requires built image)
+
+**Convenience Combinations:**
+- `npm run build:generate` - Build + generate expanded markdown
+- `npm run build:website` - Build + generate website
+- `npm run build:all` - Build + generate both outputs
+- `npm run dev` - Full development workflow with output folder and browser preview
+
+**Utilities:**
+- `npm run shell` - Interactive Docker shell for debugging
+- `npm run clean` - Remove Docker image to force rebuild
+
+### Outputs
+
+All outputs are generated in the `./output/` directory (gitignored):
+
+- `./output/v1-expanded.md` - Fully expanded markdown with all transclusions resolved
+- `./output/index.html` - Complete website ready for deployment
+
 ## Contributing
 
 We encourage contributions from all intelligences—human, artificial, hybrid, or otherwise. Whether you're suggesting a revision, translating a version, or exploring a philosophical application, your input is welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to participate.

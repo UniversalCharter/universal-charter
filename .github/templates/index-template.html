@@ -26,7 +26,7 @@
                 <h1 class="text-xl font-bold text-gray-900">Universal Charter</h1>
                 <div class="flex gap-4">
                     <a href="#charter" class="text-sm text-gray-600 hover:text-gray-900 transition">Read Charter</a>
-                    <a href="#download" class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Download PDF</a>
+                    <a href="https://github.com/UniversalCharter/universal-charter" target="_blank" class="text-sm text-gray-600 hover:text-gray-900 transition">GitHub</a>
                 </div>
             </div>
         </div>
@@ -48,8 +48,8 @@
                 <a href="#charter" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition text-lg font-medium">
                     Read the Charter
                 </a>
-                <a href="#download" class="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg hover:bg-blue-50 transition text-lg font-medium">
-                    Download PDF
+                <a href="https://github.com/UniversalCharter/universal-charter" target="_blank" class="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg hover:bg-blue-50 transition text-lg font-medium">
+                    View on GitHub
                 </a>
             </div>
         </div>
@@ -117,41 +117,6 @@
         </div>
     </section>
 
-    <!-- Download Section -->
-    <section id="download" class="bg-gray-100 py-12">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">Download the Charter</h2>
-            <p class="text-lg text-gray-700 mb-8">
-                Get a copy for offline reading, sharing, or printing
-            </p>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div class="text-3xl mb-4">📄</div>
-                    <h3 class="font-semibold text-gray-900 mb-2">Standard PDF</h3>
-                    <p class="text-sm text-gray-600 mb-4">Clean, readable format for digital viewing</p>
-                    <button class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-                        Download PDF
-                    </button>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div class="text-3xl mb-4">🖨️</div>
-                    <h3 class="font-semibold text-gray-900 mb-2">Print Version</h3>
-                    <p class="text-sm text-gray-600 mb-4">Optimized layout for printing</p>
-                    <button class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-                        Download PDF
-                    </button>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <div class="text-3xl mb-4">📱</div>
-                    <h3 class="font-semibold text-gray-900 mb-2">Mobile Friendly</h3>
-                    <p class="text-sm text-gray-600 mb-4">Compact format for mobile devices</p>
-                    <button class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-                        Download PDF
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 py-8">
@@ -166,22 +131,120 @@
     </footer>
 
     <style>
-        /* Custom styles for charter content */
-        .prose h1 { @apply text-3xl font-bold text-gray-900 mb-6 mt-12 pb-3 border-b border-gray-200; }
-        .prose h2 { @apply text-2xl font-semibold text-gray-900 mb-4 mt-10; }
-        .prose h3 { @apply text-xl font-semibold text-gray-900 mb-3 mt-8; }
-        .prose h4 { @apply text-lg font-semibold text-gray-900 mb-2 mt-6; }
-        .prose p { @apply mb-4 text-gray-800; }
-        .prose ul, .prose ol { @apply mb-4 ml-6; }
-        .prose li { @apply mb-2; }
-        .prose blockquote { @apply border-l-4 border-blue-300 pl-4 italic text-gray-700 my-6; }
-        .prose strong { @apply font-semibold text-gray-900; }
-        .prose em { @apply italic; }
-        .prose a { @apply text-blue-600 hover:text-blue-800 underline; }
+        /* Override and enhance Tailwind's prose styles */
+        .prose {
+            max-width: none;
+            color: #374151;
+            line-height: 1.75;
+        }
         
-        /* Section styling */
-        .prose .section { @apply bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-8; }
-        .prose .principle { @apply border-l-4 border-blue-500 pl-6 mb-8; }
+        .prose h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 1.5rem;
+            margin-top: 3rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .prose h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+        }
+        
+        .prose h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.75rem;
+            margin-top: 2rem;
+        }
+        
+        .prose h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .prose p {
+            margin-bottom: 1.25rem;
+            color: #374151;
+        }
+        
+        .prose ul, .prose ol {
+            margin-bottom: 1.25rem;
+            margin-left: 1.5rem;
+        }
+        
+        .prose li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .prose blockquote {
+            border-left: 4px solid #93c5fd;
+            padding-left: 1rem;
+            font-style: italic;
+            color: #4b5563;
+            margin: 1.5rem 0;
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.375rem;
+        }
+        
+        .prose strong {
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .prose em {
+            font-style: italic;
+        }
+        
+        .prose a {
+            color: #2563eb;
+            text-decoration: underline;
+            text-decoration-color: #93c5fd;
+        }
+        
+        .prose a:hover {
+            color: #1d4ed8;
+            text-decoration-color: #2563eb;
+        }
+        
+        .prose hr {
+            border: 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 2rem 0;
+        }
+        
+        .prose code {
+            background-color: #f3f4f6;
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875em;
+            color: #1f2937;
+        }
+        
+        .prose pre {
+            background-color: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .prose pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
     </style>
 </body>
 </html>

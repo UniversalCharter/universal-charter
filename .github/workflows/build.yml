@@ -19,11 +19,11 @@ jobs:
       with:
         node-version: "18"
     - name: Install markdown-transclusion
-      run: npm install -g markdown-transclusion@1.0.1
+      run: npm install -g markdown-transclusion@latest
     - name: Process charter
       run: |
         cd charter
-        npx markdown-transclusion v1.md > v1-expanded.md
+        npx markdown-transclusion v1.md --stripFrontmatter > v1-expanded.md
         echo "Charter processed to expanded markdown"
         cd ..
         node .github/scripts/build-site.js

@@ -5,11 +5,20 @@ const path = require('path');
 
 // Simple markdown to HTML converter (basic implementation)
 function markdownToHtml(markdown) {
+    // Remove YAML frontmatter (everything between --- at start and next ---)
+    markdown = markdown.replace(/^---\s*\n[\s\S]*?\n---\s*\n/m, '');
+    
     return markdown
         // Horizontal rules
         .replace(/^---+$/gm, '<hr>')
         
-        // Headers
+        // Headers with anchor support
+        .replace(/^#### (.*?)\s*\{#([^}]+)\}$/gm, '<h4 id="$2">$1</h4>')
+        .replace(/^### (.*?)\s*\{#([^}]+)\}$/gm, '<h3 id="$2">$1</h3>')
+        .replace(/^## (.*?)\s*\{#([^}]+)\}$/gm, '<h2 id="$2">$1</h2>')
+        .replace(/^# (.*?)\s*\{#([^}]+)\}$/gm, '<h1 id="$2">$1</h1>')
+        
+        // Headers without anchors (fallback)
         .replace(/^#### (.*$)/gm, '<h4>$1</h4>')
         .replace(/^### (.*$)/gm, '<h3>$1</h3>')
         .replace(/^## (.*$)/gm, '<h2>$1</h2>')
@@ -80,7 +89,7 @@ function buildSite() {
         const htmlContent = markdownToHtml(markdownContent);
         
         // Read the template
-        const templatePath = path.join(repoRoot, 'index-template.html');
+        const templatePath = path.join(repoRoot, '.github', 'templates', 'index-template.html');
         if (!fs.existsSync(templatePath)) {
             console.error('Error: index-template.html not found.');
             process.exit(1);
