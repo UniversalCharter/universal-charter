@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "Universal Charter for Digital Governance",
   "scripts": {
-    "test-push-action": "docker build -f Dockerfile.local -t universal-charter-local . && docker run --rm universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md > ../index_temp.html 2>/dev/null && tail -n +4 ../index_temp.html > ../index.html && rm ../index_temp.html && echo \"Charter processed to index.html\" && ls -la ../index.html && head -10 ../index.html'",
-    "build-local": "docker build -f Dockerfile.local -t universal-charter-local .",
-    "shell-local": "docker run --rm -it -v $(pwd):/workspace universal-charter-local",
-    "clean-local": "docker rmi universal-charter-local 2>/dev/null || true",
-    "build-site": "node .github/scripts/build-site.js",
-    "test-push-action-save": "rm -rf ./output && mkdir -p ./output && docker build -f Dockerfile.local -t universal-charter-local . && docker run --name temp-charter universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md > v1-expanded.md && npx markdown-transclusion v1.md > ../index_temp.html 2>/dev/null && tail -n +4 ../index_temp.html > ../index.html && rm ../index_temp.html && echo \"Charter processed\" && node ../.github/scripts/build-site.js && echo \"Site built\"' && docker cp temp-charter:/workspace/. ./output/ && docker rm temp-charter && echo \"Full artifact saved to ./output/\" && (command -v open >/dev/null && open ./output/index.html || command -v xdg-open >/dev/null && xdg-open ./output/index.html || echo \"Please open ./output/index.html manually\")"
+    "build": "docker build -f .github/Dockerfile.local -t universal-charter-local .",
+    "generate": "mkdir -p ./output && docker run --name temp-charter universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md --strip-frontmatter > v1-expanded.md && echo \"Expanded markdown generated\"' && docker cp temp-charter:/workspace/charter/v1-expanded.md ./output/v1-expanded.md && docker rm temp-charter && echo \"Expanded markdown copied to ./output/v1-expanded.md\"",
+    "website": "mkdir -p ./output && docker run --name temp-charter universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md --strip-frontmatter > v1-expanded.md && node ../.github/scripts/build-site.js && echo \"Website built\"' && docker cp temp-charter:/workspace/index.html ./output/index.html && docker rm temp-charter && echo \"Website copied to ./output/index.html\"",
+    "build:generate": "npm run build && npm run generate",
+    "build:website": "npm run build && npm run website",
+    "build:all": "npm run build && npm run generate && npm run website",
+    "shell": "docker run --rm -it -v $(pwd):/workspace universal-charter-local",
+    "clean": "docker rmi universal-charter-local 2>/dev/null || true",
+    "dev": "rm -rf ./output && mkdir -p ./output && npm run build && docker run --name temp-charter universal-charter-local bash -c 'cd charter && npx markdown-transclusion v1.md --strip-frontmatter > v1-expanded.md && node ../.github/scripts/build-site.js && echo \"Site built\"' && docker cp temp-charter:/workspace/. ./output/ && docker rm temp-charter && echo \"Full artifact saved to ./output/\" && (command -v open >/dev/null && open ./output/index.html || command -v xdg-open >/dev/null && xdg-open ./output/index.html || echo \"Please open ./output/index.html manually\")"
   },
   "keywords": ["governance", "digital", "charter"],
   "license": "MIT",
