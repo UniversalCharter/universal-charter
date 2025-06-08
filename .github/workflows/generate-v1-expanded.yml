@@ -1,0 +1,51 @@
+name: Generate v1-expanded.md
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-expanded:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install markdown-transclusion
+        run: npm install -g markdown-it-transclusion
+      
+      - name: Generate v1-expanded.md
+        run: |
+          cd charter
+          markdown-transclusion v1.md > v1-expanded.md
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet charter/v1-expanded.md; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add charter/v1-expanded.md
+          git commit -m "chore: update v1-expanded.md [skip ci]"
+          git push

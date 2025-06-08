@@ -1,0 +1,49 @@
+name: Generate Expanded Charter
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'charter/**'
+      - '.github/workflows/generate-expanded.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: "18"
+        
+    - name: Install markdown-transclusion
+      run: npm install -g markdown-transclusion@latest
+      
+    - name: Generate expanded charter
+      run: |
+        cd charter
+        npx markdown-transclusion v1.md --strip-frontmatter > v1-expanded.md
+        echo "Charter expanded successfully"
+        
+    - name: Check for changes
+      id: git-check
+      run: |
+        git diff --exit-code charter/v1-expanded.md || echo "changes=true" >> $GITHUB_OUTPUT
+        
+    - name: Commit and push if changed
+      if: steps.git-check.outputs.changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add charter/v1-expanded.md
+        git commit -m "chore: update expanded charter [skip ci]"
+        git push
