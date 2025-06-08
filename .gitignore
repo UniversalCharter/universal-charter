@@ -113,7 +113,6 @@ coverage/
 
 # Generated files
 *.pdf
-charter/v1-expanded.md
 index_temp.html
 
 # Temporary files
